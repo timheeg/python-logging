@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "unstructured": {
+      "class": "log.RelativeUnstructuredFormatter"
+    },
+    "structured": {
+      "class": "log.RelativeStructuredFormatter"
+    }
+  },
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "DEBUG",
+      "formatter": "unstructured",
+      "stream": "ext://sys.stderr"
+    },
+    "structured_file": {
+      "class": "logging.handlers.RotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "structured",
+      "filename": "/tmp/logs/application.log",
+      "mode": "a",
+      "maxBytes": 10485760,
+      "backupCount": 3,
+      "encoding": "utf-8"
+    }
+  },
+  "loggers": {
+    "app": {
+      "level": "DEBUG",
+      "handlers": [
+        "console",
+        "structured_file"
+      ],
+      "propagate": false
+    },
+    "app.report": {
+      "level": "DEBUG",
+      "handlers": [
+        "structured_file"
+      ],
+      "propagate": false
+    }
+  },
+  "root": {
+    "level": "INFO",
+    "handlers": [
+      "console"
+    ]
+  }
+}
