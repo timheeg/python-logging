@@ -34,11 +34,29 @@ def parse_args() -> argparse.Namespace:
         ),
         help="Path to the logging JSON configuration file",
     )
+    parser.add_argument(
+        "--console-log-level",
+        choices=("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"),
+        help="Minimum level written to the console",
+    )
+    parser.add_argument(
+        "--log-file",
+        type=Path,
+        help="Path to the structured rotating log file",
+    )
     return parser.parse_args()
 
 
-def main(log_config: Path) -> None:
-    log.init(str(log_config))
+def main(
+    log_config: Path,
+    console_log_level: str | None = None,
+    log_file: Path | None = None,
+) -> None:
+    log.init(
+        log_config,
+        console_level=console_log_level,
+        log_file=log_file,
+    )
 
     logger.debug(
         "Debug details are enabled by the example configuration"
@@ -49,8 +67,8 @@ def main(log_config: Path) -> None:
         42,
     )
 
-    # The report logger is routed to report_file and does not propagate
-    # to the console handler because propagate=false in log.json.
+    # Child application loggers propagate to the common console and file
+    # handlers, so report messages are available in both destinations.
     report_logger.info("Report entry")
 
     try:
@@ -66,7 +84,11 @@ def main(log_config: Path) -> None:
 
 def run() -> None:
     arguments = parse_args()
-    main(arguments.log_config)
+    main(
+        arguments.log_config,
+        arguments.console_log_level,
+        arguments.log_file,
+    )
 
 
 if __name__ == "__main__":

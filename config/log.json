@@ -12,7 +12,7 @@
   "handlers": {
     "console": {
       "class": "logging.StreamHandler",
-      "level": "DEBUG",
+      "level": "INFO",
       "formatter": "unstructured",
       "stream": "ext://sys.stderr"
     },
@@ -30,24 +30,17 @@
   "loggers": {
     "app": {
       "level": "DEBUG",
-      "handlers": [
-        "console",
-        "structured_file"
-      ],
-      "propagate": false
+      "handlers": [],
+      "propagate": true
     },
     "app.report": {
       "level": "DEBUG",
-      "handlers": [
-        "structured_file"
-      ],
-      "propagate": false
+      "handlers": [],
+      "propagate": true
     }
   },
   "root": {
-    "level": "INFO",
-    "handlers": [
-      "console"
-    ]
+    "level": "DEBUG",
+    "handlers": ["console", "structured_file"]
   }
 }

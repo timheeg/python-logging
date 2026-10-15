@@ -25,6 +25,17 @@ RUN python3 -m venv /opt/venv \
     && rm -rf /root/.cache/pip
 
 
+FROM builder AS test
+
+WORKDIR /opt/python-logging
+
+COPY config ./config
+COPY tests ./tests
+
+RUN /opt/venv/bin/python -m pip install --no-cache-dir ".[test]" \
+    && /opt/venv/bin/python -m pytest -q
+
+
 FROM $BASE_REPO/$BASE_IMAGE:$BASE_TAG AS runtime
 
 USER root
