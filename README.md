@@ -49,3 +49,15 @@ The default logging configuration is packaged with the installed application,
 so the `python-logging-example` console script does not depend on the current
 working directory. Use `--log-config` when an external JSON configuration is
 required.
+
+The container runner mounts `/tmp/logs/python-logging` from the host and sets
+`LOG_FILE` to the matching container path. Override the host directory with
+`LOG_DIR`:
+
+```text
+LOG_DIR="$PWD/logs" tools/run.sh
+```
+
+The structured application log and rotated backups are written to that host
+directory as `application.log`, `application.log.1`, and so on. The console
+stream remains available through Docker's standard output and error capture.

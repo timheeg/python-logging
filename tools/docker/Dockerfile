@@ -55,7 +55,7 @@ COPY --from=builder /opt/venv /opt/venv
 COPY --chown=logger:logger config ./config
 COPY --chown=logger:logger src ./src
 
-RUN mkdir -p /tmp/logs \
+RUN mkdir -p /tmp/logs/python-logging \
   && chown -R logger:logger /opt/venv /opt/python-logging /tmp/logs
 
 ENV PATH="/opt/venv/bin:${PATH}"
