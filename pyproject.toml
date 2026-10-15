@@ -23,4 +23,8 @@ python-logging-example = "example:run"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
+packages = ["python_logging"]
 py-modules = ["example", "log"]
+
+[tool.setuptools.package-data]
+python_logging = ["config/log.json"]

@@ -5,12 +5,13 @@ Run from the repository root with:
 
     python3 src/example.py
 
-The default configuration is resolved relative to this file. A different
+The default configuration is loaded from the installed package. A different
 configuration can be supplied with ``--log-config``.
 """
 
 import argparse
 import logging
+from importlib.resources import files
 from pathlib import Path
 
 import log
@@ -20,6 +21,11 @@ logger = logging.getLogger("app")
 report_logger = logging.getLogger("app.report")
 
 
+def default_log_config() -> Path:
+    """Return the installed default logging configuration path."""
+    return Path(files("python_logging").joinpath("config", "log.json"))
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Example usage of logging configuration"
@@ -27,11 +33,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--log-config",
         type=Path,
-        default=(
-            Path(__file__).resolve().parent.parent
-            / "config"
-            / "log.json"
-        ),
+        default=default_log_config(),
         help="Path to the logging JSON configuration file",
     )
     parser.add_argument(

@@ -4,10 +4,19 @@ import logging.handlers
 from pathlib import Path
 
 import log
+from example import default_log_config
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIGURATION = PROJECT_ROOT / "config" / "log.json"
+
+
+def test_default_configuration_is_packaged() -> None:
+    packaged_config = default_log_config()
+
+    assert packaged_config.is_file()
+    assert packaged_config.parent.name == "config"
+    assert packaged_config.name == "log.json"
 
 
 def test_structured_formatter_outputs_json_with_relative_path() -> None:

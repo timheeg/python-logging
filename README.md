@@ -44,3 +44,8 @@ The structured file uses the standard-library `RotatingFileHandler`, with a
 10 MiB maximum size and three backup files by default. Structured records
 contain RFC 3339 UTC timestamps and source paths relative to the project
 root. Console records use the existing human-readable formatter.
+
+The default logging configuration is packaged with the installed application,
+so the `python-logging-example` console script does not depend on the current
+working directory. Use `--log-config` when an external JSON configuration is
+required.
